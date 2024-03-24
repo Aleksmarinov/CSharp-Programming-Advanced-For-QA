@@ -1,0 +1,34 @@
+using NUnit.Framework;
+using System;
+
+namespace TestApp.UnitTests;
+
+public class MatchDatesTests
+{
+    [TestCase("12-Feb-1997", "Day: 12, Month: Feb, Year: 1997")]
+    [TestCase("12.Feb.1997", "Day: 12, Month: Feb, Year: 1997")]
+    [TestCase("12/Feb/1997", "Day: 12, Month: Feb, Year: 1997")]
+    [TestCase("Test", "")]
+    [TestCase("12/Feb/1997 12-Feb-1997", "Day: 12, Month: Feb, Year: 1997")]
+    [TestCase("", "")]
+    public void Test_Match_ValidDate_ReturnsExpectedResult(string input, string expectedResult)
+    {
+        // Arrange
+
+        // Act
+        string actualResult = MatchDates.Match(input);
+
+        // Assert
+        Assert.That(actualResult, Is.EqualTo(expectedResult));
+    }
+
+    [Test]
+    public void Test_Match_NullInput_ThrowsArgumentException()
+    {
+        // Arrange
+
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => MatchDates.Match(null));
+
+    }
+}
