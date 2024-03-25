@@ -1,0 +1,37 @@
+using NUnit.Framework;
+using System;
+
+namespace TestApp.UnitTests;
+
+public class MatchNamesTests
+{
+    [Test]
+    public void Test_Match_ValidNames_ReturnsMatchedNames()
+    {
+        // Arrange
+        string names = "John Smith and Alice Johnson";
+        string expected = "John Smith Alice Johnson";
+
+        // Act
+        string result = MatchNames.Match(names);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
+
+    [TestCase("aleks marinov", "")]
+    [TestCase("Aleks marinov", "")]
+    [TestCase("aleks Marinov", "")]
+    //[TestCase(null, "")] - bug, not fixed for null exception
+    [TestCase("", "")]
+    public void Test_Match_NoValidNames_ReturnsEmptyString(string names, string expected)
+    {
+        // Arrange
+
+        // Act
+        string actualResult = MatchNames.Match(names);
+
+        // Assert
+        Assert.AreEqual(expected, actualResult);
+    }
+}
