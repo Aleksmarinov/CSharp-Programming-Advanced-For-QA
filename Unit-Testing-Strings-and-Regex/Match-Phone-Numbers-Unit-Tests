@@ -1,0 +1,54 @@
+using NUnit.Framework;
+
+namespace TestApp.UnitTests;
+
+public class MatchPhoneNumbersTests
+{
+    [Test]
+    public void Test_Match_ValidPhoneNumbers_ReturnsMatchedNumbers()
+    {
+        // Arrange
+        string phoneNumbers = "+359-2-124-5678, +359 2 986 5432, +359-2-555-5555";
+        string expected = "+359-2-124-5678, +359 2 986 5432, +359-2-555-5555";
+
+        // Act
+        string result = MatchPhoneNumbers.Match(phoneNumbers);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
+
+    [TestCase("+3592-124-5678", "")]
+    [TestCase("+359/2/124/5678", "")]
+    [TestCase("+359.2.124.5678", "")]
+    [TestCase("+3592,124,5678", "")]
+    [TestCase("+35921245678", "")]
+    [TestCase("+359-2-1245678", "")]
+    [TestCase("", "")]
+    [TestCase("-359 2 124 5678", "")]
+    [TestCase("359 2 124 5678", "")]
+    public void Test_Match_NoValidPhoneNumbers_ReturnsEmptyString(string phoneNumbers, string expected)
+    {
+        // Arrange
+
+        // Act
+        string result = MatchPhoneNumbers.Match(phoneNumbers);
+
+        // Assert
+        Assert.That(result, Is.EqualTo(expected));
+    }
+
+    [Test]
+    public void Test_Match_MixedValidAndInvalidNumbers_ReturnsOnlyValidNumbers()
+    {
+        // Arrange
+        string mixPhoneNumbers = "+359-2-124-5678, +359 2 986 5432, +35921245678, 359 2 124 5678";
+        string expectedResult = "+359-2-124-5678, +359 2 986 5432";
+
+        // Act
+        string actualResult = MatchPhoneNumbers.Match(mixPhoneNumbers);
+
+        // Assert
+        Assert.AreEqual(expectedResult, actualResult);
+    }
+}
