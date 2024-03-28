@@ -1,0 +1,25 @@
+using NUnit.Framework;
+
+using System.Collections.Generic;
+
+namespace TestApp.UnitTests;
+
+public class MatchUrlsTests
+{
+    [TestCase("https://softuni.bg", new string[] {"https://softuni.bg"})]
+    [TestCase("https://www.softuni.bg", new string[] {"https://www.softuni.bg"})]
+    [TestCase("http://softuni.bg", new string[] {"http://softuni.bg"})]
+    [TestCase("https://softuni.bg?id=1484", new string[] {"https://softuni.bg?id=1484"})]
+    [TestCase("", new string[] { })]
+    [TestCase("https://www.softuni.bg https://www.judge.softuni.org https://github.com", new string[] { "https://www.softuni.bg", "https://www.judge.softuni.org", "https://github.com" })]
+    public void Test_ExtractUrls_EmptyText_ReturnsEmptyList(string input, string[] expectedResult)
+    {
+        // Arrange
+
+        // Act
+        List<string> actualResult = MatchUrls.ExtractUrls(input);
+
+        // Assert
+        CollectionAssert.AreEqual(expectedResult, actualResult);
+    }
+}
