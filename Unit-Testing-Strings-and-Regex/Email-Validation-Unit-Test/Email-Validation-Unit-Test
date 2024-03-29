@@ -1,1 +1,49 @@
-test
+using NUnit.Framework;
+
+namespace TestApp.UnitTests;
+
+public class EmailValidatorTests
+{
+    [TestCase("aleksandarmarinov97@gmail.com")]
+    [TestCase("aleksandarmarinov.97@gmail.com")]
+    [TestCase("aleksandarmarinov+97@gmail.com")]
+    [TestCase("aleksandarmarinov%97%@gmail.com")]
+    [TestCase("aleksandarmarinov-97@gmail.com")]
+    [TestCase("aleksandarmarinov_97@gmail.com")]
+    [TestCase("aleksandar-marinov97@gmail-123.com")]
+    [TestCase("aleksandar-marinov97@gmail123.com")]
+    [TestCase("aleksandar-marinov97@gmail.123.com")]
+    public void Test_ValidEmails_ReturnsTrue(string email)
+    {
+        // Arrange
+
+        // Act
+        bool result = EmailValidator.IsValidEmail(email);
+
+        // Assert
+        Assert.That(result, Is.True);
+    }
+
+    [TestCase("aleks..marinov//@abv.bg")]
+    [TestCase("aleks$marinov@abv.bg")]
+    [TestCase("aleks@marinov@abv.bg")]
+    [TestCase("aleksmarinov97@abvbg")]
+    [TestCase("aleksmarinov97@abv,bg")]
+    [TestCase("aleksmarinov97abv.bg")]
+    [TestCase("aleksmarinov97@@abv.bg")]
+    [TestCase("@abv.bg")]
+    [TestCase("abv.bg")]
+    [TestCase("aleksmarinovabv.bg")]
+    [TestCase("")]
+    [TestCase("1")]
+    public void Test_InvalidEmails_ReturnsFalse(string email)
+    {
+        // Arrange
+
+        // Act
+        bool result = EmailValidator.IsValidEmail(email);
+        
+        // Assert
+        Assert.That(result, Is.False);
+    }
+}
